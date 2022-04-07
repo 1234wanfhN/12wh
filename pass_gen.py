@@ -1,23 +1,20 @@
+import string
+
 while 1:
     #用户输入密码
     user_password = input("请输入新密码: ")
     #判断密码是否合格
-    UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    LOWER = 'abcdefghijklmnopqrstuvwxyz'
-    DIGIT = '0123456789'
-
-
     have_upper = False
     have_lower = False
     have_digit = False
     have_punctuation = False
 
     for char in user_password:
-        if char in UPPER:
+        if char in string.ascii_uppercase:
             have_upper = True
-        elif char in LOWER:
+        elif char in string.ascii_lowercase:
             have_lower = True
-        elif char in DIGIT:
+        elif char in string.digits:
             have_digit = True
         else:
             have_punctuation = True
