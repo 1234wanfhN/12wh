@@ -4,43 +4,34 @@ while 1:
     #用户输入密码
     user_password = input("请输入新密码: ")
     #判断密码是否合格
-    have_upper = False
-    have_lower = False
-    have_digit = False
-    have_punctuation = False
+    password_state = 0b00000
 
     for char in user_password:
         if char in string.ascii_uppercase:
-            have_upper = True
+            password_state |= 0b10000
         elif char in string.ascii_lowercase:
-            have_lower = True
+            password_state |= 0b01000
         elif char in string.digits:
-            have_digit = True
+            password_state |= 0b00100
         else:
-            have_punctuation = True
-    have_enough_char = len(user_password) >= 8
-    is_secure = (have_enough_char
-                and have_upper
-                and have_digit
-                and have_lower
-                and have_punctuation)
+            password_state |= 0b00010
+    if len(user_password) >= 8:
+        password_state |= 0b00001
     #输出
-
-
-    if is_secure:
+    if password_state == 0b11111:
         print('密码符合要求!')
         break
     else:
         prompt = '密码不符合要求,'
-        if not have_enough_char:
+        if password_state & 0b00001 == 0:
             prompt = prompt + '长度不足八,'
-        if not have_lower:
+        if password_state & 0b01000 == 0:
             prompt = prompt + '没有小写符号,'
-        if not have_upper:
+        if password_state & 0b10000 == 0:
             prompt = prompt + '没有大写符号,'
-        if not have_digit:
+        if password_state & 0b00100 == 0:
             prompt = prompt + '没有数字,'
-        if not have_punctuation:
+        if password_state & 0b00010 == 0:
             prompt = prompt + '没有标点,'
         prompt = prompt[:-1]
         print(prompt)
